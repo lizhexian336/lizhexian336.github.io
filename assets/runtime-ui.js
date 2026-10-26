@@ -86,6 +86,16 @@
   const roots=D.children(null).filter(D.isVisible),town=roots.find(n=>n.key==='town'),regular=roots.filter(n=>n.key!=='town'),groups=[...new Set(regular.map(n=>n.nav_group))];
   const townLink=town?'<a class="town-entry town-nav-entry" href="'+esc(D.url(town))+'"><i class="town-nav-panda" aria-hidden="true"></i><span><strong>'+esc(town.name)+'</strong><small>带熊猫去逛逛</small></span><b aria-hidden="true">↗</b></a>':'';
   nav.innerHTML=townLink+groups.map(group=>'<div class="nav-label">'+esc(group)+'</div>'+regular.filter(n=>n.nav_group===group).map(n=>item(n)).join('')).join('');
+  // The CUDA guide is a static GitHub Pages module, not a foamlab_sections
+  // database row. Restore it after CMS-backed sidebar rendering each time.
+  const theorySubgroup=nav.querySelector('[data-nav-section="theory"] > .nav-subgroup');
+  if(theorySubgroup&&!theorySubgroup.querySelector('a[href="/cuda/"]')){
+   const cudaEntry=document.createElement('div');
+   cudaEntry.className='nav-group';
+   cudaEntry.dataset.navSection='cuda-guide';
+   cudaEntry.innerHTML='<div class="nav-parent"><a href="/cuda/" class="nav-item nav-subitem"><span>CUDA C++ 编程指南</span></a></div>';
+   theorySubgroup.append(cudaEntry);
+  }
   if(focus?.key){const group=[...nav.querySelectorAll('[data-nav-section]')].find(g=>g.dataset.navSection===focus.key);group?.querySelector(focus.arrow?':scope > .nav-parent > .nav-expand':':scope > .nav-parent > a')?.focus({preventScroll:true});}
  };
  D.breadcrumb=item=>{
