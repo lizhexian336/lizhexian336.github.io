@@ -28,7 +28,7 @@
    const node=D.nodes.find(row=>row.key===(hub?'theory':key));if(!node)throw Error('missing module');
    if(hub){
     const children=D.children(node.id).filter(D.isVisible);
-    hub.innerHTML=children.map(row=>`<article class="lab-card"><div class="lab-card-body"><h2><a href="${esc(D.url(row))}">${esc(row.name)}</a></h2><p>${esc(row.description||'')}</p><a class="button secondary" href="${esc(D.url(row))}">查看课程目录 →</a></div></article>`).join('');
+    hub.innerHTML=children.map(row=>`<article class="lab-card"><div class="lab-card-body"><h2><a href="${esc(D.url(row))}">${esc(row.name)}</a></h2><p>${esc(row.description||'')}</p><a class="button secondary" href="${esc(D.url(row))}">查看课程目录 →</a></div></article>`).join('') + '<article class="lab-card"><div class="lab-card-body"><h2><a href="/cuda/">CUDA C++ 编程指南</a></h2><p>CUDA 12.8 中文工作译稿，含章节导航、代码与原书插图；内容仍需技术审校。</p><a class="button secondary" href="/cuda/">查看课程目录 →</a></div></article>';
    }else{
     const rows=(await D.content(node,'book')).filter(row=>row.metadata?.[metaKey]).sort((a,b)=>a.sort_order-b.sort_order);
     if(!rows.length){if(kolev){host.innerHTML='<p>课程正在整理，完成审核后将在这里显示。</p>';document.getElementById(key+'-count').textContent='课程整理中';host.dataset.loaded='true';return;}throw Error('missing lessons');}
